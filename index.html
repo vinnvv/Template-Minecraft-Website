@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeraphine Network | Modern Minecraft Server</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* Style untuk Discord Card Link */
+        .stat-card-link {
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3);
+            border-color: #5865F2;
+        }
+
+        .stat-card-link:hover .discord-icon {
+            color: #5865F2;
+            transition: color 0.3s ease;
+        }
+
+        .stat-card-link .discord-icon {
+            transition: color 0.3s ease;
+        }
+
+        /* ========== ANIMASI GLOW IP ADDRESS ========== */
+        .ip-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .ip-text small {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            margin-bottom: 4px;
+        }
+
+        .ip-text strong {
+            display: block;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            animation: glowPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+            }
+            50% {
+                color: #d8b4fe;
+                text-shadow: 0 0 20px rgba(168, 85, 247, 0.9), 0 0 40px rgba(168, 85, 247, 0.4);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .ip-text strong {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <!-- BG EFFECTS -->
+    <canvas id="particleCanvas"></canvas>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div id="scrollProgress"></div>
+    <div class="main-background"></div>
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen">
+        <div class="intro-content">
+            <img src="images/logo.png" alt="Zeraphine Logo" class="logo-drop" onerror="this.style.display='none'">
+            <h1 class="intro-text">ZERAPHINE</h1>
+            <div class="loading-bar"><div class="progress"></div></div>
+            <button id="enter-btn" onclick="masukKeWeb()">MASUK KE SERVER</button>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo-brand">
+                    <img src="images/logo.png" alt="" onerror="this.style.display='none'">
+                    <span>ZERAPHINE</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Beranda</a></li>
+                    <li><a href="rules.html">Rules</a></li>
+                    <li><a href="staff.html">Staff</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="shop.html" class="btn-store">WEBSTORE</a></li>
+                </ul>
+                <div class="nav-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <span id="themeLabel">Light</span>
+                    </button>
+                    <div class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-info">
+                    <span class="badge">#1 ANARCHY LEGEND INDONESIA</span>
+                    <h1>Dunia Tanpa Batas <br><span class="gradient-text">Petualangan Abadi.</span></h1>
+                    <p>Zeraphine adalah dunia anarchy yang kejam namun adil. Bangun klanmu, tempa senjata legendaris, dan kuasai wilayah.</p>
+                    <div class="ip-action" onclick="copyIP()">
+                        <div class="ip-text">
+                            <small>SERVER IP ADDRESS</small>
+                            <strong id="serverIP">PLAY.ZERAPHINESMP.XYZ</strong>
+                        </div>
+                        <div class="ip-icon"><i class="fa-solid fa-clone"></i></div>
+                    </div>
+                    <div id="copy-toast">✓ IP Berhasil Disalin!</div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-circle-check status-icon"></i>
+                        <h3>Minecraft Server</h3>
+                        <p><span id="player-count">0</span> Pemain Online</p>
+                    </div>
+                    <a href="http://yourdiscord" target="_blank" rel="noopener noreferrer" class="stat-card stat-card-link">
+                        <i class="fa-brands fa-discord discord-icon"></i>
+                        <h3>Community</h3>
+                        <p>Join Discord Kami</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <div class="container">
+            <div class="section-head">
+                <h2>Kenapa Main di <span>Zeraphine?</span></h2>
+            </div>
+            <div class="feature-grid">
+                <div class="f-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Anti-Cheat System</h3>
+                    <p>Keamanan tingkat tinggi menjaga permainan tetap adil bagi semua player.</p>
+                </div>
+                <div class="f-card">
+                    <i class="fa-solid fa-bolt"></i>
+                    <h3>Zero Lag</h3>
+                    <p>Server dioptimasi dengan hardware terbaik untuk menjamin kelancaran.</p>
+                </div>
+                <div class="f-card">
+                    <i class="fa-solid fa-trophy"></i>
+                    <h3>Custom Items</h3>
+                    <p>Dapatkan senjata dan armor legendaris yang tidak ada di server lain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Zeraphine. Not affiliated with Mojang AB.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/effects.js"></script>
+</body>
+</html>

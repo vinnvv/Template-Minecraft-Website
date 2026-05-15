@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeraphine | Webstore</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* ===== CATEGORY TABS ===== */
+        .shop-tabs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 32px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .shop-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.5);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .shop-tab:hover {
+            border-color: rgba(168,85,247,0.5);
+            color: rgba(255,255,255,0.85);
+        }
+
+        .shop-tab.active {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(168,85,247,0.4);
+        }
+
+        .shop-tab i { font-size: 1rem; }
+
+        /* ===== CATEGORY SECTIONS ===== */
+        .shop-section {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .shop-section.active { display: block; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== WEAPON CARDS ===== */
+        .weapon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .weapon-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weapon-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--weapon-color, linear-gradient(135deg, #ef4444, #f97316));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .weapon-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(168,85,247,0.2);
+            border-color: rgba(168,85,247,0.3);
+        }
+
+        .weapon-card .weapon-icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .weapon-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .weapon-card .weapon-desc {
+            color: var(--text-dim, rgba(255,255,255,0.5));
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .weapon-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .weapon-stats p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .weapon-stats p i {
+            color: #a855f7;
+            width: 14px;
+        }
+
+        .weapon-rarity {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .rarity-mythic  { background: rgba(239,68,68,0.15);  color: #ef4444;  border: 1px solid rgba(239,68,68,0.3); }
+        .rarity-legend  { background: rgba(245,158,11,0.15); color: #f59e0b;  border: 1px solid rgba(245,158,11,0.3); }
+        .rarity-epic    { background: rgba(168,85,247,0.15); color: #a855f7;  border: 1px solid rgba(168,85,247,0.3); }
+
+        .rank-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* ===== BTN BUY ===== */
+        .btn-buy {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168,85,247,0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-buy:active { transform: translateY(0); }
+
+        /* ===== MODAL OVERLAY ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== MODAL BOX ===== */
+        .modal-box {
+            background: linear-gradient(145deg, #0f0f1a, #1a1028);
+            border: 1px solid rgba(168,85,247,0.25);
+            border-radius: 28px;
+            padding: 0;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            transform: scale(0.85) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(168,85,247,0.1),
+                0 25px 60px rgba(0,0,0,0.6),
+                0 0 80px rgba(168,85,247,0.08);
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        /* ===== MODAL HEADER ===== */
+        .modal-header {
+            padding: 32px 32px 24px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(124,58,237,0.08) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .modal-header-glow {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .modal-item-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 20px rgba(168,85,247,0.4));
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .modal-item-rarity {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .modal-item-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+            margin: 0 0 6px;
+            line-height: 1.3;
+        }
+
+        .modal-item-category {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== MODAL BODY ===== */
+        .modal-body {
+            padding: 24px 32px;
+        }
+
+        /* Purchase info box */
+        .purchase-info {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .purchase-info-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .purchase-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.88rem;
+        }
+
+        .purchase-row:last-child { border-bottom: none; }
+
+        .purchase-row .label {
+            color: rgba(255,255,255,0.45);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .purchase-row .label i {
+            width: 16px;
+            color: #a855f7;
+            font-size: 0.8rem;
+        }
+
+        .purchase-row .value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .purchase-row.total {
+            padding-top: 14px;
+            margin-top: 4px;
+            border-top: 1px dashed rgba(168,85,247,0.3);
+            border-bottom: none;
+        }
+
+        .purchase-row.total .label {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .purchase-row.total .value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Username input */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .input-label i { color: #a855f7; }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.2);
+            font-weight: 400;
+        }
+
+        .input-field:focus {
+            border-color: rgba(168,85,247,0.6);
+            background: rgba(168,85,247,0.06);
+            box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
+        }
+
+        .input-field.error {
+            border-color: rgba(239,68,68,0.6);
+            background: rgba(239,68,68,0.05);
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+        }
+
+        .input-hint {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 7px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-hint.error-msg {
+            color: #ef4444;
+        }
+
+        /* Warning notice */
+        .modal-notice {
+            background: rgba(245,158,11,0.07);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.6;
+        }
+
+        .modal-notice i {
+            color: #f59e0b;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+
+        /* Modal action buttons */
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 12px;
+        }
+
+        .btn-cancel {
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255,255,255,0.09);
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .btn-confirm {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7, #7c3aed);
+            background-size: 200% 100%;
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-confirm::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-confirm:hover {
+            background-position: 100% 0;
+            box-shadow: 0 6px 30px rgba(124,58,237,0.6);
+            transform: translateY(-1px);
+        }
+
+        .btn-confirm:hover::before { opacity: 1; }
+        .btn-confirm:active { transform: translateY(0); }
+
+        /* Modal close btn */
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(239,68,68,0.15);
+            border-color: rgba(239,68,68,0.3);
+            color: #ef4444;
+        }
+
+        /* ===== SUCCESS MODAL ===== */
+        .success-box {
+            background: linear-gradient(145deg, #0f0f1a, #0d1a12);
+            border: 1px solid rgba(34,197,94,0.25);
+            box-shadow:
+                0 0 0 1px rgba(34,197,94,0.08),
+                0 25px 60px rgba(0,0,0,0.6),
+                0 0 80px rgba(34,197,94,0.06);
+        }
+
+        .success-content {
+            padding: 50px 36px;
+            text-align: center;
+        }
+
+        .success-anim {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.1));
+            border: 2px solid rgba(34,197,94,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2rem;
+            animation: successPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 30px rgba(34,197,94,0.2);
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .success-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .success-detail {
+            background: rgba(34,197,94,0.06);
+            border: 1px solid rgba(34,197,94,0.15);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .success-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .success-detail-row .s-label {
+            color: rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .success-detail-row .s-label i {
+            color: #22c55e;
+            font-size: 0.75rem;
+        }
+
+        .success-detail-row .s-value {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .btn-success-close {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.92rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(34,197,94,0.3);
+        }
+
+        .btn-success-close:hover {
+            box-shadow: 0 6px 30px rgba(34,197,94,0.5);
+            transform: translateY(-1px);
+        }
+
+        /* ===== DECORATIVE TOP BAR ===== */
+        .modal-top-bar {
+            height: 4px;
+            background: var(--modal-color, linear-gradient(135deg, #7c3aed, #a855f7));
+            border-radius: 28px 28px 0 0;
+        }
+
+        /* Particles inside modal */
+        .modal-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .modal-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: rgba(168,85,247,0.4);
+            animation: modalParticle linear infinite;
+        }
+
+        @keyframes modalParticle {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-200px) translateX(var(--dx, 20px)); opacity: 0; }
+        }
+
+        /* Step indicator */
+        .modal-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 22px;
+        }
+
+        .modal-step-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .modal-step-dot.active {
+            width: 20px;
+            border-radius: 3px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .modal-box { border-radius: 20px; }
+            .modal-header { padding: 24px 20px 18px; }
+            .modal-body { padding: 18px 20px; }
+            .modal-actions { grid-template-columns: 1fr; }
+            .modal-item-name { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div id="scrollProgress"></div>
+    <div class="main-background"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo-brand">
+                    <img src="images/logo.png" alt="" onerror="this.style.display='none'">
+                    <span>ZERAPHINE</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="rules.html">Rules</a></li>
+                    <li><a href="staff.html">Staff</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="shop.html" class="btn-store active">WEBSTORE</a></li>
+                </ul>
+                <div class="nav-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <span id="themeLabel">Light</span>
+                    </button>
+                    <div class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <span class="badge">WEBSTORE</span>
+            <h1>Pilih <span class="gradient-text">Item Kamu</span></h1>
+            <p style="color:var(--text-dim);margin-top:12px;font-size:1rem;">Dukung server agar tetap online dan dapatkan fitur eksklusif!</p>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="shop-tabs">
+            <button class="shop-tab active" onclick="switchTab('rank', this)">
+                <i class="fa-solid fa-crown"></i> RANK
+            </button>
+            <button class="shop-tab" onclick="switchTab('senjata', this)">
+                <i class="fa-solid fa-khanda"></i> SENJATA LEGEND
+            </button>
+        </div>
+
+        <!-- SECTION: RANK -->
+        <div class="shop-section active" id="section-rank">
+            <div class="rank-grid">
+                <!-- VIP -->
+                <div class="rank-card">
+                    <i class="fa-solid fa-gem" style="color:#00d2ff;filter:drop-shadow(0 0 10px rgba(0,210,255,0.5));"></i>
+                    <h2>VIP</h2>
+                    <div class="rank-features">
+                        <p>Prefix [VIP] di chat</p>
+                        <p>Akses /fly di Lobby</p>
+                        <p>3x Home Slots</p>
+                        <p>Akses Kit VIP</p>
+                    </div>
+                    <span class="rank-price">Rp 50.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '💎',
+                        name: 'Rank VIP',
+                        rarity: 'RANK',
+                        rarityClass: 'rarity-epic',
+                        category: 'Rank Upgrade',
+                        price: 'Rp 50.000',
+                        color: 'linear-gradient(135deg, #00d2ff, #0080ff)',
+                        features: ['Prefix [VIP] di chat', 'Akses /fly di Lobby', '3x Home Slots', 'Akses Kit VIP']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- LEGEND (Featured) -->
+                <div class="rank-card featured">
+                    <div style="position:relative;">
+                        <span class="badge" style="position:absolute;top:-15px;right:0;background:var(--gradient);color:white;border:none;">TERPOPULER</span>
+                    </div>
+                    <i class="fa-solid fa-crown" style="color:#ffcc00;filter:drop-shadow(0 0 10px rgba(255,204,0,0.5));margin-top:10px;"></i>
+                    <h2>LEGEND</h2>
+                    <div class="rank-features">
+                        <p>Semua Fitur VIP</p>
+                        <p>Akses /heal & /feed</p>
+                        <p>10x Home Slots</p>
+                        <p>Akses Kit Legend</p>
+                        <p>Custom Join Message</p>
+                    </div>
+                    <span class="rank-price">Rp 120.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '👑',
+                        name: 'Rank LEGEND',
+                        rarity: 'TERPOPULER',
+                        rarityClass: 'rarity-legend',
+                        category: 'Rank Upgrade',
+                        price: 'Rp 120.000',
+                        color: 'linear-gradient(135deg, #f59e0b, #fcd34d)',
+                        features: ['Semua Fitur VIP', 'Akses /heal & /feed', '10x Home Slots', 'Akses Kit Legend', 'Custom Join Message']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- GOD -->
+                <div class="rank-card">
+                    <i class="fa-solid fa-fire" style="color:#ef4444;filter:drop-shadow(0 0 10px rgba(239,68,68,0.5));"></i>
+                    <h2>GOD</h2>
+                    <div class="rank-features">
+                        <p>Semua Fitur Legend</p>
+                        <p>Akses /god mode</p>
+                        <p>Unlimited Home Slots</p>
+                        <p>Akses Kit God</p>
+                        <p>Custom Particle Effect</p>
+                        <p>Priority Queue</p>
+                    </div>
+                    <span class="rank-price">Rp 250.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '🔥',
+                        name: 'Rank GOD',
+                        rarity: 'MYTHIC',
+                        rarityClass: 'rarity-mythic',
+                        category: 'Rank Upgrade',
+                        price: 'Rp 250.000',
+                        color: 'linear-gradient(135deg, #ef4444, #f97316)',
+                        features: ['Semua Fitur Legend', 'Akses /god mode', 'Unlimited Home Slots', 'Akses Kit God', 'Custom Particle Effect', 'Priority Queue']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: SENJATA LEGEND -->
+        <div class="shop-section" id="section-senjata">
+            <div class="weapon-grid">
+
+                <!-- DOOMBRINGER AXE -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #FB0000, #FD7900);">
+                    <span class="weapon-rarity rarity-mythic">✦ SIN OF WRATH</span>
+                    <span class="weapon-icon">🪓</span>
+                    <h2>ᴅᴏᴏᴍʙʀɪɴɢᴇʀ ᴀxᴇ</h2>
+                    <p class="weapon-desc">Senjata yang memiliki kekuatan kemarahan dan hasrat dosa manusia yang terkumpul menjadi satu, membentuk senjata kutukan berkekuatan dosa besar.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Flame Slash — DMG 20</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Inferno Wheel — DMG 20 | CD 15s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Blazing Leap — DMG 50 | CD 30s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Hellfire Scythe — CD 90s</p>
+                    </div>
+                    <span class="rank-price">Rp 85.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '🪓',
+                        name: 'Doombringer Axe',
+                        rarity: '✦ SIN OF WRATH',
+                        rarityClass: 'rarity-mythic',
+                        category: 'Senjata Legend',
+                        price: 'Rp 85.000',
+                        color: 'linear-gradient(135deg, #FB0000, #FD7900)',
+                        features: ['[LMB] Flame Slash — DMG 20', '[RMB] Inferno Wheel — DMG 20 | CD 15s', '[Shift+RMB] Blazing Leap — DMG 50 | CD 30s', '[Shift+LMB] Hellfire Scythe — CD 90s']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- DOOMBRINGER GREATSWORD -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #FB0000, #FD7900);">
+                    <span class="weapon-rarity rarity-mythic">✦ SIN OF WRATH</span>
+                    <span class="weapon-icon">⚔️</span>
+                    <h2>ᴅᴏᴏᴍʙʀɪɴɢᴇʀ ɢʀᴇᴀᴛsᴡᴏʀᴅ</h2>
+                    <p class="weapon-desc">Senjata kutukan yang memanifestasikan amarah dan hasrat dosa manusia, dilengkapi kekuatan Iblis dan Perjanjian Kegelapan yang tak tertandingi.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Satan Strike — DMG 30 | CD 0.5s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Wrath — CD 20s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Permaflame Greatsword — DMG 10 | CD 30s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Pact of Satan — DMG 20 | CD 30s</p>
+                    </div>
+                    <span class="rank-price">Rp 95.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '⚔️',
+                        name: 'Doombringer Greatsword',
+                        rarity: '✦ SIN OF WRATH',
+                        rarityClass: 'rarity-mythic',
+                        category: 'Senjata Legend',
+                        price: 'Rp 95.000',
+                        color: 'linear-gradient(135deg, #FB0000, #FD7900)',
+                        features: ['[LMB] Satan Strike — DMG 30 | CD 0.5s', '[RMB] Wrath — CD 20s', '[Shift+LMB] Permaflame Greatsword — DMG 10 | CD 30s', '[Shift+RMB] Pact of Satan — DMG 20 | CD 30s']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- AVARICE SCYTHE EVO -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #007F0B, #00C52E);">
+                    <span class="weapon-rarity" style="background:rgba(0,197,46,0.15);color:#00C52E;border:1px solid rgba(0,197,46,0.3);">★ SIN OF GREED</span>
+                    <span class="weapon-icon">⚔️</span>
+                    <h2>ᴀᴠᴀʀɪᴄᴇ sᴄʏᴛʜᴇ (ᴇᴠᴏ)</h2>
+                    <p class="weapon-desc">Dosa ketamakan yang terkumpul menjadi satu, berubah bentuk menjadi senjata kutukan yang tidak pernah merasa puas dan penuh keegoisan tinggi.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Soul Slice Evo — CD 0.5s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Death Spin — DMG 20 | CD 15s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Forbidden Art — DMG 50 | CD 60s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Laceration — DMG 10</p>
+                    </div>
+                    <span class="rank-price">Rp 110.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '⚔️',
+                        name: 'Avarice Scythe (Evo)',
+                        rarity: '★ SIN OF GREED',
+                        rarityClass: '',
+                        rarityStyle: 'background:rgba(0,197,46,0.15);color:#00C52E;border:1px solid rgba(0,197,46,0.3);',
+                        category: 'Senjata Legend',
+                        price: 'Rp 110.000',
+                        color: 'linear-gradient(135deg, #007F0B, #00C52E)',
+                        features: ['[LMB] Soul Slice Evo — CD 0.5s', '[RMB] Death Spin — DMG 20 | CD 15s', '[Shift+LMB] Forbidden Art — DMG 50 | CD 60s', '[Shift+RMB] Laceration — DMG 10']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- CROSSBOW OF ENVIOUS WHISPER -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #c70fd4, #cc26d8);">
+                    <span class="weapon-rarity rarity-epic">◆ SIN OF ENVY</span>
+                    <span class="weapon-icon">🏹</span>
+                    <h2>ᴄʀᴏssʙᴏᴡ ᴏꜰ ᴇɴᴠɪᴏᴜs ᴡʜɪsᴘᴇʀ</h2>
+                    <p class="weapon-desc">Kutukan Sin of Envy merasuki jiwa pemiliknya. Kecemburuan mulai menyelinap ke dalam hati seperti angin malam yang tak terlihat namun merusak.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Void Arrow — CD 0.9s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Retreat — CD 15s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Blackhole Shot — CD 40s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Void Rain — CD 20s</p>
+                    </div>
+                    <span class="rank-price">Rp 75.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '🏹',
+                        name: 'Crossbow of Envious Whisper',
+                        rarity: '◆ SIN OF ENVY',
+                        rarityClass: 'rarity-epic',
+                        category: 'Senjata Legend',
+                        price: 'Rp 75.000',
+                        color: 'linear-gradient(135deg, #c70fd4, #cc26d8)',
+                        features: ['[RMB] Void Arrow — CD 0.9s', '[LMB] Retreat — CD 15s', '[Shift+LMB] Blackhole Shot — CD 40s', '[Shift+RMB] Void Rain — CD 20s']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- DAGGER OF RAVENOUS -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #8B0000, #db000f);">
+                    <span class="weapon-rarity rarity-mythic">✦ SIN OF GLUTTONY</span>
+                    <span class="weapon-icon">🗡️</span>
+                    <h2>ᴅᴀɢɢᴇʀ ᴏꜰ ʀᴀᴠᴇɴᴏᴜs</h2>
+                    <p class="weapon-desc">Manifestasi keinginan manusia gelap dan nafsu bejat. Cita-cita tersembunyi yang merayap dalam hati pemiliknya akan memperkuat kekuatan senjata ini.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Blade Slash — DMG 20 | CD 0.3s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Dash — DMG 3 | CD 15s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Dagger Throw — DMG 60 | CD 15s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Blade Dance — CD 35s</p>
+                    </div>
+                    <span class="rank-price">Rp 65.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '🗡️',
+                        name: 'Dagger of Ravenous',
+                        rarity: '✦ SIN OF GLUTTONY',
+                        rarityClass: 'rarity-mythic',
+                        category: 'Senjata Legend',
+                        price: 'Rp 65.000',
+                        color: 'linear-gradient(135deg, #8B0000, #db000f)',
+                        features: ['[LMB] Blade Slash — DMG 20 | CD 0.3s', '[RMB] Dash — DMG 3 | CD 15s', '[Shift+RMB] Dagger Throw — DMG 60 | CD 15s', '[Shift+LMB] Blade Dance — CD 35s']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+                <!-- DESPAIR'S DELIGHT HAMMER -->
+                <div class="weapon-card" style="--weapon-color: linear-gradient(135deg, #7400e1, #6600aa);">
+                    <span class="weapon-rarity rarity-epic">◆ SIN OF LUST</span>
+                    <span class="weapon-icon">🔨</span>
+                    <h2>ᴅᴇsᴘᴀɪʀ's ᴅᴇʟɪɢʜᴛ ʜᴀᴍᴍᴇʀ</h2>
+                    <p class="weapon-desc">Senjata terkutuk yang terobsesi dengan kekuatan cinta dan nafsu. Mampu mempesona dan memikat bahkan yang paling tegar hatinya sekalipun.</p>
+                    <div class="weapon-stats">
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[LMB]</b> Divine Immolation — DMG 30 | CD 0.5s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[RMB]</b> Luminous Wave — DMG 30 | CD 10s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+RMB]</b> Divine Cross — CD 18s</p>
+                        <p><i class="fa-solid fa-hand-pointer"></i> <b>[Shift+LMB]</b> Divine Punishment — DMG 7 | CD 60s</p>
+                    </div>
+                    <span class="rank-price">Rp 90.000</span>
+                    <button class="btn-buy" onclick="openModal({
+                        icon: '🔨',
+                        name: 'Despair\'s Delight Hammer',
+                        rarity: '◆ SIN OF LUST',
+                        rarityClass: 'rarity-epic',
+                        category: 'Senjata Legend',
+                        price: 'Rp 90.000',
+                        color: 'linear-gradient(135deg, #7400e1, #6600aa)',
+                        features: ['[LMB] Divine Immolation — DMG 30 | CD 0.5s', '[RMB] Luminous Wave — DMG 30 | CD 10s', '[Shift+RMB] Divine Cross — CD 18s', '[Shift+LMB] Divine Punishment — DMG 7 | CD 60s']
+                    })">
+                        <i class="fa-solid fa-shopping-cart"></i> BELI SEKARANG
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Zeraphine. Not affiliated with Mojang AB.</p>
+    </footer>
+
+    <!-- ===== PURCHASE MODAL ===== -->
+    <div class="modal-overlay" id="purchaseModal" onclick="handleOverlayClick(event)">
+        <div class="modal-box" id="modalBox">
+            <div class="modal-top-bar" id="modalTopBar"></div>
+            <div class="modal-particles" id="modalParticles"></div>
+
+            <button class="modal-close-btn" onclick="closeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-header">
+                <div class="modal-header-glow"></div>
+
+                <!-- Steps indicator -->
+                <div class="modal-steps">
+                    <div class="modal-step-dot active" id="step1dot"></div>
+                    <div class="modal-step-dot" id="step2dot"></div>
+                </div>
+
+                <span class="modal-item-icon" id="modalIcon"></span>
+                <span class="weapon-rarity modal-item-rarity" id="modalRarity"></span>
+                <h2 class="modal-item-name" id="modalName"></h2>
+                <p class="modal-item-category" id="modalCategory"></p>
+            </div>
+
+            <div class="modal-body">
+                <!-- Step 1: Info -->
+                <div id="modalStep1">
+                    <div class="purchase-info">
+                        <p class="purchase-info-title"><i class="fa-solid fa-receipt"></i> &nbsp;Ringkasan Pesanan</p>
+                        <div class="purchase-row">
+                            <span class="label"><i class="fa-solid fa-box"></i> Item</span>
+                            <span class="value" id="modalItemSummary">—</span>
+                        </div>
+                        <div class="purchase-row">
+                            <span class="label"><i class="fa-solid fa-tag"></i> Kategori</span>
+                            <span class="value" id="modalCategorySummary">—</span>
+                        </div>
+                        <div class="purchase-row">
+                            <span class="label"><i class="fa-solid fa-list-check"></i> Fitur</span>
+                            <span class="value" id="modalFeatureCount">—</span>
+                        </div>
+                        <div class="purchase-row total">
+                            <span class="label"><i class="fa-solid fa-wallet"></i> Total Harga</span>
+                            <span class="value" id="modalPrice">—</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-notice">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>Pembelian bersifat <strong>permanen</strong> dan tidak dapat dikembalikan. Pastikan username Minecraft kamu sudah benar sebelum melanjutkan.</span>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn-cancel" onclick="closeModal()">
+                            <i class="fa-solid fa-xmark"></i> Batal
+                        </button>
+                        <button class="btn-confirm" onclick="goToStep2()">
+                            Lanjutkan <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Username input -->
+                <div id="modalStep2" style="display:none;">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-user"></i> Username Minecraft
+                        </label>
+                        <input
+                            type="text"
+                            class="input-field"
+                            id="usernameInput"
+                            placeholder="Masukkan username kamu..."
+                            maxlength="16"
+                            oninput="validateUsername()"
+                        >
+                        <p class="input-hint" id="inputHint">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Harus sesuai dengan username Minecraft kamu (max 16 karakter)
+                        </p>
+                    </div>
+
+                    <!-- Payment method -->
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-credit-card"></i> Metode Pembayaran
+                        </label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                            <label class="payment-option" style="
+                                display:flex;align-items:center;gap:10px;
+                                padding:12px 14px;
+                                background:rgba(255,255,255,0.04);
+                                border:1px solid rgba(255,255,255,0.1);
+                                border-radius:10px;cursor:pointer;
+                                transition:all 0.3s ease;
+                                font-size:0.85rem;color:rgba(255,255,255,0.7);
+                                font-weight:600;
+                            " id="payDana" onclick="selectPayment('dana', this)">
+                                <i class="fa-solid fa-mobile-screen" style="color:#118EEA;"></i> DANA
+                            </label>
+                            <label class="payment-option" style="
+                                display:flex;align-items:center;gap:10px;
+                                padding:12px 14px;
+                                background:rgba(255,255,255,0.04);
+                                border:1px solid rgba(255,255,255,0.1);
+                                border-radius:10px;cursor:pointer;
+                                transition:all 0.3s ease;
+                                font-size:0.85rem;color:rgba(255,255,255,0.7);
+                                font-weight:600;
+                            " id="payGopay" onclick="selectPayment('gopay', this)">
+                                <i class="fa-solid fa-mobile-screen" style="color:#00AED6;"></i> GoPay
+                            </label>
+                            <label class="payment-option" style="
+                                display:flex;align-items:center;gap:10px;
+                                padding:12px 14px;
+                                background:rgba(255,255,255,0.04);
+                                border:1px solid rgba(255,255,255,0.1);
+                                border-radius:10px;cursor:pointer;
+                                transition:all 0.3s ease;
+                                font-size:0.85rem;color:rgba(255,255,255,0.7);
+                                font-weight:600;
+                            " id="payTransfer" onclick="selectPayment('transfer', this)">
+                                <i class="fa-solid fa-building-columns" style="color:#22c55e;"></i> Transfer Bank
+                            </label>
+                            <label class="payment-option" style="
+                                display:flex;align-items:center;gap:10px;
+                                padding:12px 14px;
+                                background:rgba(255,255,255,0.04);
+                                border:1px solid rgba(255,255,255,0.1);
+                                border-radius:10px;cursor:pointer;
+                                transition:all 0.3s ease;
+                                font-size:0.85rem;color:rgba(255,255,255,0.7);
+                                font-weight:600;
+                            " id="payOvo" onclick="selectPayment('ovo', this)">
+                                <i class="fa-solid fa-mobile-screen" style="color:#4C3494;"></i> OVO
+                            </label>
+                        </div>
+                        <p class="input-hint" id="paymentHint" style="display:none;color:#ef4444;">
+                            <i class="fa-solid fa-circle-exclamation"></i> Pilih metode pembayaran
+                        </p>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn-cancel" onclick="goToStep1()">
+                            <i class="fa-solid fa-arrow-left"></i> Kembali
+                        </button>
+                        <button class="btn-confirm" onclick="confirmPurchase()">
+                            <i class="fa-solid fa-lock"></i> KONFIRMASI BELI
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div class="modal-overlay" id="successModal" onclick="handleSuccessOverlayClick(event)">
+        <div class="modal-box success-box" id="successModalBox">
+            <button class="modal-close-btn" onclick="closeSuccessModal()" style="border-color:rgba(34,197,94,0.2);">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="success-content">
+                <div class="success-anim">✅</div>
+
+                <h2 class="success-title">Pesanan Dibuat!</h2>
+                <p class="success-subtitle">
+                    Terima kasih! Pesananmu telah berhasil dicatat.<br>
+                    Silakan hubungi admin untuk proses pembayaran & aktivasi item.
+                </p>
+
+                <div class="success-detail">
+                    <div class="success-detail-row">
+                        <span class="s-label"><i class="fa-solid fa-box"></i> Item</span>
+                        <span class="s-value" id="successItemName">—</span>
+                    </div>
+                    <div class="success-detail-row">
+                        <span class="s-label"><i class="fa-solid fa-user"></i> Username</span>
+                        <span class="s-value" id="successUsername">—</span>
+                    </div>
+                    <div class="success-detail-row">
+                        <span class="s-label"><i class="fa-solid fa-credit-card"></i> Pembayaran</span>
+                        <span class="s-value" id="successPayment">—</span>
+                    </div>
+                    <div class="success-detail-row">
+                        <span class="s-label"><i class="fa-solid fa-wallet"></i> Total</span>
+                        <span class="s-value" id="successPrice" style="color:#22c55e;">—</span>
+                    </div>
+                </div>
+
+                <div class="modal-notice" style="background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.2);margin-bottom:20px;">
+                    <i class="fa-brands fa-whatsapp" style="color:#22c55e;font-size:1.1rem;"></i>
+                    <span>Hubungi admin kami via <strong>WhatsApp / Discord</strong> dengan menyebutkan username dan item yang dibeli untuk proses aktivasi.</span>
+                </div>
+
+                <button class="btn-success-close" onclick="closeSuccessModal()">
+                    <i class="fa-solid fa-check"></i> &nbsp;Selesai
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/effects.js"></script>
+    <script>
+        /* ===== TAB SWITCHER ===== */
+        function switchTab(tab, el) {
+            document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.shop-section').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('section-' + tab).classList.add('active');
+        }
+
+        /* ===== MODAL STATE ===== */
+        let currentItem = null;
+        let selectedPayment = null;
+
+        /* ===== OPEN MODAL ===== */
+        function openModal(item) {
+            currentItem = item;
+            selectedPayment = null;
+
+            // Reset payment selection visuals
+            document.querySelectorAll('.payment-option').forEach(p => {
+                p.style.borderColor = 'rgba(255,255,255,0.1)';
+                p.style.background = 'rgba(255,255,255,0.04)';
+                p.style.color = 'rgba(255,255,255,0.7)';
+            });
+            document.getElementById('paymentHint').style.display = 'none';
+
+            // Populate modal
+            document.getElementById('modalIcon').textContent     = item.icon;
+            document.getElementById('modalName').textContent     = item.name;
+            document.getElementById('modalCategory').textContent = item.category.toUpperCase();
+            document.getElementById('modalPrice').textContent    = item.price;
+            document.getElementById('modalItemSummary').textContent    = item.name;
+            document.getElementById('modalCategorySummary').textContent = item.category;
+            document.getElementById('modalFeatureCount').textContent   = item.features.length + ' fitur termasuk';
+
+            // Rarity badge
+            const rarityEl = document.getElementById('modalRarity');
+            rarityEl.textContent  = item.rarity;
+            rarityEl.className    = 'weapon-rarity modal-item-rarity ' + (item.rarityClass || '');
+            if (item.rarityStyle) rarityEl.style.cssText = item.rarityStyle;
+            else rarityEl.removeAttribute('style');
+
+            // Top bar color
+            document.getElementById('modalTopBar').style.background = item.color;
+
+            // Generate particles
+            generateParticles(item.color);
+
+            // Reset to step 1
+            goToStep1(true);
+
+            // Reset input
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('usernameInput').className = 'input-field';
+            document.getElementById('inputHint').className = 'input-hint';
+            document.getElementById('inputHint').innerHTML =
+                '<i class="fa-solid fa-circle-info"></i> Harus sesuai dengan username Minecraft kamu (max 16 karakter)';
+
+            // Show
+            document.getElementById('purchaseModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function generateParticles(color) {
+            const container = document.getElementById('modalParticles');
+            container.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'modal-particle';
+                p.style.cssText = `
+                    left: ${Math.random() * 100}%;
+                    bottom: ${Math.random() * 30}%;
+                    width: ${2 + Math.random() * 3}px;
+                    height: ${2 + Math.random() * 3}px;
+                    --dx: ${(Math.random() - 0.5) * 60}px;
+                    animation-duration: ${3 + Math.random() * 4}s;
+                    animation-delay: ${Math.random() * 3}s;
+                    opacity: 0;
+                `;
+                container.appendChild(p);
+            }
+        }
+
+        /* ===== STEP NAVIGATION ===== */
+        function goToStep1(init = false) {
+            document.getElementById('modalStep1').style.display = 'block';
+            document.getElementById('modalStep2').style.display = 'none';
+            document.getElementById('step1dot').classList.add('active');
+            document.getElementById('step2dot').classList.remove('active');
+        }
+
+        function goToStep2() {
+            document.getElementById('modalStep1').style.display = 'none';
+            document.getElementById('modalStep2').style.display = 'block';
+            document.getElementById('step1dot').classList.remove('active');
+            document.getElementById('step2dot').classList.add('active');
+            setTimeout(() => document.getElementById('usernameInput').focus(), 100);
+        }
+
+        /* ===== USERNAME VALIDATION ===== */
+        function validateUsername() {
+            const input   = document.getElementById('usernameInput');
+            const hint    = document.getElementById('inputHint');
+            const val     = input.value.trim();
+            const regex   = /^[a-zA-Z0-9_]{3,16}$/;
+
+            if (val === '') {
+                input.className = 'input-field';
+                hint.className  = 'input-hint';
+                hint.innerHTML  = '<i class="fa-solid fa-circle-info"></i> Harus sesuai dengan username Minecraft kamu (max 16 karakter)';
+            } else if (!regex.test(val)) {
+                input.className = 'input-field error';
+                hint.className  = 'input-hint error-msg';
+                hint.innerHTML  = '<i class="fa-solid fa-circle-exclamation"></i> Username tidak valid (hanya huruf, angka, underscore, 3–16 karakter)';
+            } else {
+                input.className = 'input-field';
+                input.style.borderColor = 'rgba(34,197,94,0.6)';
+                input.style.background  = 'rgba(34,197,94,0.05)';
+                input.style.boxShadow   = '0 0 0 3px rgba(34,197,94,0.1)';
+                hint.className  = 'input-hint';
+                hint.style.color = '#22c55e';
+                hint.innerHTML  = '<i class="fa-solid fa-circle-check"></i> Username valid!';
+            }
+        }
+
+        /* ===== PAYMENT SELECTION ===== */
+        function selectPayment(method, el) {
+            selectedPayment = method;
+            document.querySelectorAll('.payment-option').forEach(p => {
+                p.style.borderColor = 'rgba(255,255,255,0.1)';
+                p.style.background  = 'rgba(255,255,255,0.04)';
+                p.style.color       = 'rgba(255,255,255,0.7)';
+            });
+            el.style.borderColor = 'rgba(168,85,247,0.6)';
+            el.style.background  = 'rgba(168,85,247,0.1)';
+            el.style.color       = '#fff';
+            document.getElementById('paymentHint').style.display = 'none';
+        }
+
+        /* ===== CONFIRM PURCHASE ===== */
+        function confirmPurchase() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const regex    = /^[a-zA-Z0-9_]{3,16}$/;
+            let valid = true;
+
+            // Validate username
+            if (!regex.test(username)) {
+                const input = document.getElementById('usernameInput');
+                input.className = 'input-field error';
+                input.focus();
+                valid = false;
+            }
+
+            // Validate payment
+            if (!selectedPayment) {
+                document.getElementById('paymentHint').style.display = 'flex';
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Close purchase modal
+            closeModal(false);
+
+            // Populate success modal
+            const paymentNames = {
+                dana: 'DANA', gopay: 'GoPay', transfer: 'Transfer Bank', ovo: 'OVO'
+            };
+            document.getElementById('successItemName').textContent = currentItem.name;
+            document.getElementById('successUsername').textContent  = username;
+            document.getElementById('successPayment').textContent   = paymentNames[selectedPayment];
+            document.getElementById('successPrice').textContent     = currentItem.price;
+
+            // Show success after short delay
+            setTimeout(() => {
+                document.getElementById('successModal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }, 350);
+        }
+
+        /* ===== CLOSE MODALS ===== */
+        function closeModal(restoreScroll = true) {
+            document.getElementById('purchaseModal').classList.remove('show');
+            if (restoreScroll) document.body.style.overflow = '';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('purchaseModal')) closeModal();
+        }
+
+        function handleSuccessOverlayClick(e) {
+            if (e.target === document.getElementById('successModal')) closeSuccessModal();
+        }
+
+        /* ===== ESCAPE KEY ===== */
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeSuccessModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeraphine | Staff Team</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div id="scrollProgress"></div>
+    <div class="main-background"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo-brand">
+                    <img src="images/logo.png" alt="" onerror="this.style.display='none'">
+                    <span>ZERAPHINE</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="rules.html">Rules</a></li>
+                    <li><a href="staff.html" class="active">Staff</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="shop.html" class="btn-store">WEBSTORE</a></li>
+                </ul>
+                <div class="nav-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <span id="themeLabel">Light</span>
+                    </button>
+                    <div class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <span class="badge">TEAM</span>
+            <h1>Our <span class="gradient-text">Staff Team</span></h1>
+        </div>
+        <div class="staff-grid">
+            <div class="staff-card" style="border-color:rgba(239,68,68,0.3);">
+                <img src="https://mc-heads.net/avatar/Vinnv/100" alt="Owner">
+                <h3>Vinnv</h3>
+                <span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;">OWNER</span>
+            </div>
+            <div class="staff-card" style="border-color:rgba(88,101,242,0.3);">
+                <img src="https://mc-heads.net/avatar/Steve/100" alt="Admin">
+                <h3>BudiCraft</h3>
+                <span class="badge" style="background:rgba(88,101,242,0.15);color:#5865F2;">ADMIN</span>
+            </div>
+            <div class="staff-card" style="border-color:rgba(34,197,94,0.3);">
+                <img src="https://mc-heads.net/avatar/Alex/100" alt="Moderator">
+                <h3>ZeraModz</h3>
+                <span class="badge" style="background:rgba(34,197,94,0.15);color:#22c55e;">MODERATOR</span>
+            </div>
+            <div class="staff-card" style="border-color:rgba(168,85,247,0.3);">
+                <img src="https://mc-heads.net/avatar/Herobrine/100" alt="Helper">
+                <h3>ZeraHelper</h3>
+                <span class="badge" style="background:rgba(168,85,247,0.15);color:#a855f7;">HELPER</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Zeraphine. Not affiliated with Mojang AB.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/effects.js"></script>
+</body>
+</html>
